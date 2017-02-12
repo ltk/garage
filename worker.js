@@ -1,8 +1,6 @@
-const kue = require('kue')
-
 require('dotenv').config()
 
-const queue = kue.createQueue()
+const queue = require('../shared/queue')
 
 queue.process('doorCommand', function(job, done){
   doorCommand(job.data, done)
