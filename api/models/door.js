@@ -1,6 +1,6 @@
 const redis = require('redis')
 const bluebird = require('bluebird')
-const redisClient = redis.createClient({ prefix: 'garage-api' })
+const redisClient = redis.createClient({ prefix: 'garage-api', url: process.env.REDIS_URL })
 
 bluebird.promisifyAll(redis.RedisClient.prototype)
 bluebird.promisifyAll(redis.Multi.prototype)
