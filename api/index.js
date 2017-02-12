@@ -11,6 +11,7 @@ const API = {
       handler: (request, reply) => {
         Door.fetch().then((door) => {
           reply({
+            type: 'doors',
             data: {
               attributes: door
             }
