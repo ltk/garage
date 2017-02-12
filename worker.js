@@ -27,7 +27,7 @@ function doorCommand(jobData, done) {
           clearInterval(progressUpdater)
 
           Door.set({ status: inflectedCommand.complete, progress: 1 }).then(() => {
-            console.log("Command Done:", inflectedCommand.complete, progress)
+            console.log("Command Done:", inflectedCommand.complete)
             done()
           })
         } else {
