@@ -28,13 +28,7 @@ const API = {
           command: request.payload.data.attributes.command
         }).save()
 
-        reply({
-          data: {
-            attributes: {
-              status: "open"
-            }
-          }
-        })
+        reply(null).code(202)
       }
     })
 
