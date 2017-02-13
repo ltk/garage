@@ -16,7 +16,7 @@ class Layout extends PureComponent {
   }
 
   delayedPing = () => {
-    this.timer = setTimeout(this.ping, 1000)
+    this.timer = setTimeout(this.ping, 500)
   }
 
   ping = () => {
