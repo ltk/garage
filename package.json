@@ -1,8 +1,8 @@
 {
   "name": "garage-api",
   "version": "1.0.0",
-  "engines" : {
-    "node" : "7.5.0"
+  "engines": {
+    "node": "7.5.0"
   },
   "description": "The API for the SXSW workshop garage door opener example",
   "main": "server.js",

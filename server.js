@@ -5,7 +5,8 @@ require('dotenv').config()
 const server = new Hapi.Server()
 
 server.connection({
-  port: process.env.PORT
+  port: process.env.API_PORT,
+  routes: { cors: true }
 })
 
 server.register(require('./api'))
