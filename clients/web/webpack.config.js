@@ -75,6 +75,7 @@ module.exports = function (env) {
       contentBase: resolve('build'),
       publicPath: '/',
       compress: true,
+      noInfo: true,
       historyApiFallback: true,
       port: PORT
     }
