@@ -1,0 +1,3 @@
+rootProject.name = 'GarageRemote'
+
+include ':app'
