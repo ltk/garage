@@ -5,6 +5,10 @@ const Garage = Cylon.robot({
     spark: { adaptor: 'spark', accessToken: process.env.PARTICLE_ACCESS_TOKEN, deviceId: process.env.PARTICLE_DEVICE_ID }
   },
 
+  devices: {
+    servo: { driver: 'servo', pin: 'D1' }
+  },
+
   events: ['opened', 'closed'],
 
   commands: function() {

@@ -8,8 +8,21 @@ queue.process('doorCommand', function(job, done){
   doorCommand(job.data, done)
 })
 
+// When the worker fires up, make sure door is in correct position.
+Door.fetch().then((door) => {
+  Garage.on("ready", (garage) => {
+    console.log("READY!", door)
+    if (door.status == "open") {
+      garage.commands.open(garage)
+    } else {
+      garage.commands.close(garage)
+    }
+  })
+})
+
+
 function doorCommand(jobData, done) {
-  const operationDuration = 3.5 * 1000
+  const operationDuration = 5.4 * 1000
   const command = jobData.command
 
   const inflectedCommand = inflectCommand(command)
@@ -18,6 +31,9 @@ function doorCommand(jobData, done) {
     if (command == door.status) {
       done()
     } else {
+      const opening = command == "open"
+      const finalProgress = opening ? 0 : 1
+      const progressMultiplier = opening ? -1 : 1
       const operationStartedAt = new Date().getTime()
       const operationCompleteAt = operationStartedAt + operationDuration
 
@@ -37,12 +53,13 @@ function doorCommand(jobData, done) {
         if (currentTime > operationCompleteAt) {
           clearInterval(progressUpdater)
 
-          Door.set({ status: inflectedCommand.complete, progress: 1 }).then(() => {
+
+          Door.set({ status: inflectedCommand.complete, progress: finalProgress }).then(() => {
             console.log("Command Done:", inflectedCommand.complete)
             done()
           })
         } else {
-          const progress = 1 - (operationCompleteAt - currentTime) / operationDuration
+          const progress = finalProgress - (((operationCompleteAt - currentTime) / operationDuration) * progressMultiplier)
 
           Door.set({ status: inflectedCommand.inProgress, progress }).then(() => {
             console.log("Command Progress:", inflectedCommand.inProgress, progress)
