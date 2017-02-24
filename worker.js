@@ -2,13 +2,14 @@ require('dotenv').config()
 
 const Door = require('./api/models/door')
 const queue = require('./shared/queue')
+const Garage = require('./hardware/garage')
 
 queue.process('doorCommand', function(job, done){
   doorCommand(job.data, done)
 })
 
 function doorCommand(jobData, done) {
-  const operationDuration = 10 * 1000
+  const operationDuration = 3.5 * 1000
   const command = jobData.command
 
   const inflectedCommand = inflectCommand(command)
@@ -19,6 +20,16 @@ function doorCommand(jobData, done) {
     } else {
       const operationStartedAt = new Date().getTime()
       const operationCompleteAt = operationStartedAt + operationDuration
+
+      try {
+        if (inflectedCommand.complete == 'open') {
+          Garage.commands.open(Garage)
+        } else {
+          Garage.commands.close(Garage)
+        }
+      } catch(err) {
+        console.log(err)
+      }
 
       const progressUpdater = setInterval(() => {
         const currentTime = new Date().getTime()
