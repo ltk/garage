@@ -24,12 +24,21 @@ const API = {
       method:  'POST',
       path:    '/api/door_commands',
       handler: (request, reply) => {
-        var job = queue.create('doorCommand', {
-          // TODO: input error handling
-          command: request.payload.data.attributes.command
-        }).save()
+        let status = 400
+        const command = request.payload.data.attributes.command
 
-        reply(null).code(202)
+        if (Door.isValidCommand(command)) {
+          const job = queue.create('doorCommand', { command }).save()
+
+          if (job) {
+            status = 202
+          } else {
+            // Our connection to redis is probably down.
+            status = 503
+          }
+        }
+
+        reply(null).code(status)
       }
     })
 
@@ -37,7 +46,7 @@ const API = {
       method:  'PUT',
       path:    '/api/door',
       handler: (request, reply) => {
-        // TODO: input error handling
+        // For setup/debugging only
         const attributes = request.payload.data.attributes
 
         Door.set(attributes).then(() => {
