@@ -9,7 +9,7 @@ const redisClient = redis.createClient({ prefix: 'garage-api', url: process.env.
 bluebird.promisifyAll(redis.RedisClient.prototype)
 bluebird.promisifyAll(redis.Multi.prototype)
 
-const Door = {
+module.exports = {
   isValidCommand(command) {
     return Object.keys(DoorCommands).indexOf(command) !== -1
   },
@@ -24,36 +24,33 @@ const Door = {
     })
   },
 
-  open() {
+  open(done) {
     this._set({ status: DoorCommands.open.inProgress })
 
-    GarageController.commands.open(this.update.bind(this))
+    return GarageController.commands.open(this.update.bind(this), () => {
+      this._set({ status: DoorCommands.open.complete })
+      done()
+    })
   },
 
-  close() {
+  close(done) {
     this._set({ status: DoorCommands.close.inProgress })
 
-    GarageController.commands.close(this.update.bind(this))
+    return GarageController.commands.close(this.update.bind(this), () => {
+      this._set({ status: DoorCommands.close.complete })
+      done()
+    })
   },
 
   update(data) {
-    console.log('updating with', data.result)
-    // TODO: how to map this to cleaned up data
-    // this._set(data)
+    try {
+      const progress = data.result / 100.0
+      const updateParams = { progress }
 
-    const updateParams = {
-      progress: data.result
+      this._set({ progress })
+    } catch (error) {
+      console.log("Caught error:", error)
     }
-
-    Object.keys(DoorCommands).forEach((key) => {
-      const command = DoorCommands[key]
-
-      if (data.location === command.location) {
-        updateParams.status = command.complete
-      }
-    })
-
-    this._set(updateParams)
   },
 
   _set(attributes) {
@@ -74,5 +71,3 @@ const Door = {
     return `door-${attributeName}`
   }
 }
-
-module.exports = Door

@@ -10,9 +10,8 @@ Door.whenReady(() => {
 })
 
 function doorCommand(jobData, done) {
-  // const operationDuration = 5.4 * 1000
   const command = jobData.command
   if (Door.isValidCommand(command)) {
-    Door[command]()
+    Door[command](done)
   }
 }

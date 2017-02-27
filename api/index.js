@@ -26,6 +26,7 @@ const API = {
       handler: (request, reply) => {
         let status = 400
         const command = request.payload.data.attributes.command
+        console.log('Received command', command, Door.isValidCommand(command))
 
         if (Door.isValidCommand(command)) {
           const job = queue.create('doorCommand', { command }).save()
