@@ -1,0 +1,11 @@
+{
+  "name": "garage-client-electron",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron -r babel-register ."
+  },
+  "dependencies": {
+    "babel-register": "^6.23.0",
+    "electron": "^1.4.15"
+  }
+}
