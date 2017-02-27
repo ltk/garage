@@ -27,24 +27,27 @@ const Door = {
   open() {
     this._set({ status: DoorCommands.open.inProgress })
 
-    GarageController.commands.open(this.update)
+    GarageController.commands.open(this.update.bind(this))
   },
 
   close() {
     this._set({ status: DoorCommands.close.inProgress })
 
-    GarageController.commands.close(this.update)
+    GarageController.commands.close(this.update.bind(this))
   },
 
   update(data) {
+    console.log('updating with', data.result)
     // TODO: how to map this to cleaned up data
     // this._set(data)
 
     const updateParams = {
-      progress: data.location
+      progress: data.result
     }
 
-    DoorCommands.forEach((command) => {
+    Object.keys(DoorCommands).forEach((key) => {
+      const command = DoorCommands[key]
+
       if (data.location === command.location) {
         updateParams.status = command.complete
       }

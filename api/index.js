@@ -49,7 +49,7 @@ const API = {
         // For setup/debugging only
         const attributes = request.payload.data.attributes
 
-        Door.set(attributes).then(() => {
+        Door._set(attributes).then(() => {
           reply({
             data: {
               attributes

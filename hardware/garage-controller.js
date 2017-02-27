@@ -22,7 +22,7 @@ const GarageController = Cylon.robot({
     this._moveTo(100, updateCallback)
   },
 
-  close() {
+  close(updateCallback) {
     this._moveTo(0, updateCallback)
   },
 
@@ -32,8 +32,8 @@ const GarageController = Cylon.robot({
     let error = null
 
     const onComplete = (err, data) => {
-      error = error
-      location = data
+      error = err
+      location = data.result
       updateCallback(data)
     }
 
