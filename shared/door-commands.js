@@ -1,12 +1,12 @@
 module.exports = {
   close: {
     location: 0,
-    complete: 'close',
+    complete: 'closed',
     inProgress: 'closing'
   },
   open: {
     location: 100,
-    complete: 'open',
+    complete: 'opened',
     inProgress: 'opening'
   }
 }

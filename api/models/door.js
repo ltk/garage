@@ -9,7 +9,7 @@ const redisClient = redis.createClient({ prefix: 'garage-api', url: process.env.
 bluebird.promisifyAll(redis.RedisClient.prototype)
 bluebird.promisifyAll(redis.Multi.prototype)
 
-const Door = {
+module.exports = {
   isValidCommand(command) {
     return Object.keys(DoorCommands).indexOf(command) !== -1
   },
@@ -27,13 +27,13 @@ const Door = {
   open() {
     this._set({ status: DoorCommands.open.inProgress })
 
-    GarageController.commands.open(this.update)
+    return GarageController.commands.open(this.update.bind(this))
   },
 
   close() {
     this._set({ status: DoorCommands.close.inProgress })
 
-    GarageController.commands.close(this.update)
+    return GarageController.commands.close(this.update.bind(this))
   },
 
   update(data) {
@@ -44,7 +44,9 @@ const Door = {
       progress: data.location
     }
 
-    DoorCommands.forEach((command) => {
+    Object.keys(DoorCommands).forEach((key) => {
+      const command = DoorCommands[key]
+
       if (data.location === command.location) {
         updateParams.status = command.complete
       }
@@ -71,5 +73,3 @@ const Door = {
     return `door-${attributeName}`
   }
 }
-
-module.exports = Door
