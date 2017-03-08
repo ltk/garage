@@ -55,7 +55,7 @@ module.exports = function (env) {
             return false
           }
 
-          return context.includes('node_modules') || context.includes('microcosm/src')
+          return context.includes('node_modules')
         }
       })
     ],
