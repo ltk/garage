@@ -46,6 +46,8 @@ We're pulling in location of the API by using an environment variable. For the
 web, we've added an entry for it in our `webpack.config.js`. For desktop, we
 just require our configuration options directly using the [`dotenv` package](https://www.npmjs.com/package/dotenv).
 
+## Data
+
 Our app frequently pings the server for the status of the garage using a technique
 called [long polling](https://www.pubnub.com/blog/2014-12-01-http-long-polling/).
 No fancy web sockets, but garages aren't fancy.
