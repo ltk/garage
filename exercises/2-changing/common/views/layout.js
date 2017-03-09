@@ -49,10 +49,14 @@ class Layout extends PureComponent {
     return postCommand('close', this.ping)
   }
 
+  renderError () {
+    return <p>Error! {this.state.message}</p>
+  }
+
   render () {
     // We like to use const magic values, globals, and for properties not "owned"
     // by the current function
-    const { status, progress } = this.state
+    const { error, status, progress } = this.state
 
     let shouldClose = status === 'opening' || status === 'opening'
 
@@ -64,6 +68,7 @@ class Layout extends PureComponent {
         <main>
           Progress:
           <p><progress value={progress} /></p>
+          { error ? this.renderError() : null }
         </main>
         <footer>
           <button onClick={shouldClose ? this.close : this.open}>

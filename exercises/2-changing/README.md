@@ -265,6 +265,59 @@ module.exports = function (env) {
 
 For both platforms, you'll need to restart your build process to observe the change.
 
+## Polish
+
+We have a responsive polling system and a streamlined button user experience,
+however we don't have any error handling to think of. Let's fix that!
+
+We'll keep things dead simple, so that we can move on to the final exercise.
+The  API requests happening within `layout.js` should receive an error response
+if something goes wrong. Let's force that to happen by changing our API_URL
+environment variable:
+
+```bash
+# .env
+API_URL=bogus
+```
+
+After rebooting your build process, let's crack open `layout.js` and address
+the issue:
+
+```javascript
+// common/views/layout.js...
+renderError () {
+  return <p>Error! {this.state.message}</p>
+}
+
+render () {
+  const { error, status, progress } = this.state
+
+  let shouldClose = status === 'opening' || status === 'opening'
+
+  return (
+    <div className="wrapper">
+      <header>
+        The Garage is {status}
+      </header>
+      <main>
+        Progress:
+        <p><progress value={progress} /></p>
+        { error ? this.renderError() : null }
+      </main>
+      <footer>
+        <button onClick={shouldClose ? this.close : this.open}>
+          {shouldClose ? 'Close' : 'Open'}
+        </button>
+      </footer>
+    </div>
+  )
+}
+```
+
+Whenever an error is set, it will now display in the UI. The ternary we've added
+to Layout's render method will return null if there is no error, which tells
+React not to render anything.
+
 ## Moving on
 
 We've learned a few things in this exercise: how to work with React components,
