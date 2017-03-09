@@ -1,0 +1,21 @@
+{
+  "name": "garage-client",
+  "scripts": {
+    "start:web": "webpack-dev-server --config ./platforms/web/webpack.config.js",
+    "start:electron": "electron ./platforms/desktop"
+  },
+  "dependencies": {
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "babel-register": "^6.23.0",
+    "dotenv": "^4.0.0",
+    "electron": "^1.6.1",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.3.0",
+    "xhr": "^2.3.3"
+  }
+}
