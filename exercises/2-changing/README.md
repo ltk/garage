@@ -138,7 +138,7 @@ to make things a bit more concise:
 
 ```javascript
 render () {
-  // We like to use const magic values, globals, and for properties not "owned"
+  // We like to use const for magic values, globals, and for properties not "owned"
   // by the current function
   const { status, progress } = this.state
 
