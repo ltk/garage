@@ -1,12 +1,12 @@
 {
-	"name": "Garage",
+	"name": "garage-3-creation",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js start",
 		"start:ios": "react-native run-ios",
 		"start:android": "react-native run-android",
-		"start:web": "webpack-dev-server --config=web/webpack.config.js"
+		"start:web": "webpack-dev-server --config web/webpack.config.js"
 	},
 	"dependencies": {
 		"react": "~15.4.1",
