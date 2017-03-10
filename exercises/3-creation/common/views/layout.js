@@ -1,9 +1,18 @@
-import React, { PureComponent } from 'react'
-import { getStatus, postCommand } from '../actions'
+import Config from 'react-native-config'
+import React from 'react'
+import { Button, Text, View } from 'react-native'
+import Progress from './progress'
 
-const POLL_TIME = parseInt(process.env.POLL_TIME || 1000)
+const POLL_TIME = parseInt(Config.POLL_TIME || 1000)
 
-class Layout extends PureComponent {
+import {
+  getStatus,
+  postCommand
+} from '../actions'
+
+import styles from './styles'
+
+export default class Layout extends React.Component {
 
   state = {
     status: 'Unknown',
@@ -27,7 +36,6 @@ class Layout extends PureComponent {
 
     this.request = getStatus(status => {
       this.request = null
-
       // Delayed ping will get called once the React component has finished
       // reconciling the status state change
       this.setState(status, this.delayedPing)
@@ -51,7 +59,7 @@ class Layout extends PureComponent {
   }
 
   renderError () {
-    return <p>Error! {this.state.message}</p>
+    return <Text>Error! {this.state.message}</Text>
   }
 
   render () {
@@ -62,24 +70,22 @@ class Layout extends PureComponent {
     let shouldClose = status === 'opening' || status === 'opening'
 
     return (
-      <div className="wrapper">
-        <header>
-          The Garage is {status}
-        </header>
-        <main>
-          Progress:
-          <p><progress value={progress} /></p>
+      <View style={styles.container}>
+        <Text style={styles.header}>
+          The Garage is {this.state.status}
+        </Text>
+
+        <View style={styles.main}>
+          <Text>Progress</Text>
+          <Progress progress={this.state.progress} />
           { error ? this.renderError() : null }
-        </main>
-        <footer>
-          <button onClick={shouldClose ? this.close : this.open}>
-            {shouldClose ? 'Close' : 'Open'}
-          </button>
-        </footer>
-      </div>
+        </View>
+
+        <View style={styles.footer}>
+          <Button title={shouldClose ? 'Close' : 'Open'}
+                  onPress={shouldClose ? this.close : this.open} />
+        </View>
+      </View>
     )
   }
-
 }
-
-export default Layout
