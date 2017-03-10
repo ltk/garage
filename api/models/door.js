@@ -25,20 +25,32 @@ module.exports = {
   },
 
   open(done) {
-    this._set({ status: DoorCommands.open.inProgress })
+    this.fetch().then((door) => {
+      if (door.status !== DoorCommands.open.complete) {
+        this._set({ status: DoorCommands.open.inProgress })
 
-    return GarageController.commands.open(this.update.bind(this), () => {
-      this._set({ status: DoorCommands.open.complete })
-      done()
+        return GarageController.commands.open(this.update.bind(this), () => {
+          this._set({ status: DoorCommands.open.complete })
+          done()
+        })
+      } else {
+        done()
+      }
     })
   },
 
   close(done) {
-    this._set({ status: DoorCommands.close.inProgress })
+    this.fetch().then((door) => {
+      if (door.status !== DoorCommands.close.complete) {
+        this._set({ status: DoorCommands.close.inProgress })
 
-    return GarageController.commands.close(this.update.bind(this), () => {
-      this._set({ status: DoorCommands.close.complete })
-      done()
+        return GarageController.commands.close(this.update.bind(this), () => {
+          this._set({ status: DoorCommands.close.complete })
+          done()
+        })
+      } else {
+        done()
+      }
     })
   },
 

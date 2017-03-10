@@ -1,5 +1,7 @@
 # Garage
 
+Welcome to the Garage. This is the demo project for the SXSW 2017 workshop: What JavaScript Everywhere Really Looks Like.
+
 ## API
 
 ### Setup
