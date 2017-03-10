@@ -1,13 +1,4 @@
-// =============================================================================
-// To control an actual Photon, uncomment out the following `require`, add the
-// following packages to package.json, and defined your device credentials in .env
-//
-// const Cylon = require('cylon')
-//
-// "cylon": "^1.3.0",
-// "cylon-spark": "^0.21.1",
-//
-// =============================================================================
+const Cylon = require('cylon')
 
 const DoorCommands = require('../shared/door-commands')
 
