@@ -2,9 +2,9 @@
 
 Welcome to the Garage. This is the demo project for the SXSW 2017 workshop: What JavaScript Everywhere Really Looks Like.
 
-This repository includes the backend Node service that controls the garage and keeps track of its state, as well as the control interfaces for web, iOS, Android, and desktop.
+This repository includes the backend Node service that controls the garage and keeps track of its state, as well as the control clients for web, iOS, Android, and desktop.
 
-*The API must be running to use any of the control interfaces.*
+*The API must be running to use any of the control clients.*
 
 ## Dependencies
 
@@ -18,7 +18,7 @@ Install Node and Redis. After Node is installed, install Yarn by running `npm in
 
 If you run into issues using Yarn, double check that your PATH is correctly [configured for Yarn](https://yarnpkg.com/lang/en/docs/install/#alternatives-tab).
 
-## API
+## Running the API
 
 ### Setup
 
@@ -35,7 +35,7 @@ yarn start
 
 This single command will start a Redis server, the Node API server, and the Node worker.
 
-## Web Client
+## Running the Web Client
 
 ### Setup
 
