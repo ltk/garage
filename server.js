@@ -5,7 +5,7 @@ require('dotenv').config()
 const server = new Hapi.Server()
 
 server.connection({
-  port: process.env.PORT || process.env.API_PORT,
+  port: (process.env.PLATFORM === 'heroku' ? process.env.PORT : process.env.API_PORT),
   routes: { cors: true }
 })
 
