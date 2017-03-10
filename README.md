@@ -1,10 +1,14 @@
-# Garage
+# What JavaScript Everywhere Really Looks Like | SXSW 2017 | The Garage
 
-Welcome to the Garage. This is the demo project for the SXSW 2017 workshop: What JavaScript Everywhere Really Looks Like.
+Welcome to the Garage. This is the demo project for the SXSW 2017 workshop: What JavaScript Everywhere Really Looks Like. This is world's most uselessly complex garage door opener. It includes hardware controllers, backend web services, and iOS, Android, desktop, and web clients for controlling a garage door, all written completely in JavaScript.
 
-This repository includes the backend Node service that controls the garage and keeps track of its state, as well as the control clients for web, iOS, Android, and desktop.
+[See a video of the garage in action.](https://monosnap.com/file/ckyBtfoe2AHDFmVcPk6UyYxDCuy42n)
 
-*The API must be running to use any of the control clients.*
+During the workshop, we'll be guiding you through this system, as well as offering the opportunity to complete some exercises related to the system.
+
+This repository includes all aspects of the Garage system.
+
+*NOTE: The API must be running to use any of the control clients.*
 
 ## Dependencies
 
@@ -17,6 +21,10 @@ This repository includes the backend Node service that controls the garage and k
 Install Node and Redis. After Node is installed, install Yarn by running `npm install -g yarn` or by choosing any of the other [recommended Yarn installation methods](https://yarnpkg.com/lang/en/docs/install/#mac-tab).
 
 If you run into issues using Yarn, double check that your PATH is correctly [configured for Yarn](https://yarnpkg.com/lang/en/docs/install/#alternatives-tab).
+
+## Exercises
+
+Our three exercises can be found in the [`/exercises` directory](https://github.com/ltk/garage/tree/master/exercises) in this repository. The exercises are ordered by level of difficulty/prerequisite knowledge (i.e. If you are a beginner to JavaScript, you will feel most comfortable with [Exercise 1](https://github.com/ltk/garage/tree/master/exercises/1-investigation)).
 
 ## Running the API
 
