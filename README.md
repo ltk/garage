@@ -4,18 +4,19 @@
 
 ### Setup
 
+Make sure you have Redis installed. (We have binaries available on USB drives if needed.)
+
+Then,
+
 ```
 cp .env.example .env
 yarn install
-gem install foreman
 ```
-
-Then make sure you have Redis running.
 
 ### Start
 
 ```
-foreman start
+yarn start
 ```
 
 ## Web Client
