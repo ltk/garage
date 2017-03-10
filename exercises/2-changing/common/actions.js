@@ -3,10 +3,15 @@ import { resolve } from 'url'
 
 const API_URL = process.env.API_URL
 
+// Default headers
+const headers = {
+  'Content-Type': 'application/vnd.api+json'
+}
+
 export function getStatus (callback) {
   let url = resolve(API_URL, 'api/door')
 
-  return xhr.get({ url, json: true }, (error, response, body) => {
+  return xhr.get({ url, headers, json: true }, (error, response, body) => {
     if (error || response.statusCode >= 400) {
       return callback({
         error: true,
@@ -29,7 +34,7 @@ export function postCommand (command, callback) {
     }
   }
 
-  return xhr.post({ url, body, json: true }, (error, response, body) => {
+  return xhr.post({ url, headers, body, json: true }, (error, response, body) => {
     if (error || response.statusCode >= 400) {
       return callback({
         error: true,

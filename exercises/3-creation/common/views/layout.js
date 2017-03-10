@@ -1,9 +1,10 @@
-import Config from 'react-native-config'
 import React from 'react'
 import { Button, Text, View } from 'react-native'
 import Progress from './progress'
 
-const POLL_TIME = parseInt(Config.POLL_TIME || 1000)
+import {
+  POLL_TIME
+} from '../../config'
 
 import {
   getStatus,
@@ -36,6 +37,7 @@ export default class Layout extends React.Component {
 
     this.request = getStatus(status => {
       this.request = null
+
       // Delayed ping will get called once the React component has finished
       // reconciling the status state change
       this.setState(status, this.delayedPing)

@@ -16,8 +16,7 @@ at the React Native website to setup all of the dependencies for this
 project. There are a few.
 
 For those on Windows, iOS will be a challenge (nigh impossible). Feel
-free to continue on with Android. You'll still share code, and add an
-additional platform later on.
+free to continue on with Android.
 
 ## Up and running
 
@@ -108,7 +107,298 @@ Now we can access configuration settings by importing the
 `react-native-config` module. Let's open up `common/actions.js` and
 set this up:
 
-```bash
+```javascript
 // common/actions.js
-
+import Config from 'react-native-config'
+// ...
+const API_URL = Config.API_URL
 ```
+
+That's it! Now let's make a working app...
+
+## The view layer
+
+React Native still uses React, but it no longer lives in the DOM
+environment. We replace components like `<div>` and `<p>` with
+`<View>` and `<Text />`.
+
+To start, let's copy over the `layout.js` component from the previous
+example:
+
+```bash
+mkdir -p common/views
+cp ../2-changing/common/views/ common/views
+```
+
+Next let's update our index.ios.js and index.android.js files to pull
+in that view component:
+
+```javascript
+// This is the same between both files. Solidarity!
+import { AppRegistry } from 'react-native'
+
+import Layout from './common/views/layout'
+
+AppRegistry.registerComponent('Garage', () => Layout)
+```
+
+Of course, doing this will cause the your application to throw an
+error. We're still rendering HTML in that component! Next we need to
+replace all instances of HTML with special React Native components:
+
+```javascript
+import React from 'react'
+import Config from 'react-native-config'
+
+import {
+  Button,
+  Text,
+  View
+} from 'react-native'
+
+import {
+  getStatus,
+  postCommand
+} from '../actions'
+
+const POLL_TIME = parseInt(Config.POLL_TIME || 1000)
+
+export default class Layout extends React.Component {
+  // ...
+  // Nothing between the top of this file and the following lines
+  // change. Hurrah!
+
+  renderError () {
+    return <Text>Error! {this.state.message}</Text>
+  }
+
+  render () {
+    const { error, status, progress } = this.state
+
+    let shouldClose = status === 'opening' || status === 'opening'
+
+    return (
+      <View>
+        <Text>
+          The Garage is {this.state.status}
+        </Text>
+
+        <View>
+          <Text>Progress: {progress * 100}%</Text>
+          { error ? this.renderError() : null }
+        </View>
+
+        <View>
+          <Button title={shouldClose ? 'Close' : 'Open'}
+                  onPress={shouldClose ? this.close : this.open} />
+        </View>
+      </View>
+    )
+  }
+}
+```
+
+We're done here. Sort of. If you view the page, you'll notice that
+everything is crammed at the top of the page! We have no style. Let's
+fix that.
+
+## Styling components with React Native
+
+React Native uses a JavaScript to style. It has you build up
+JavaScript objects of style properties and pass them in as props to
+React components.
+
+We'll breeze through this section, however there is a wealth of
+material to read in
+the [Styles](https://facebook.github.io/react-native/docs/style.html)
+section of the React Native documentation.
+
+Make a new file, `views/styles.js'. It should look something like
+this:
+
+```javascript
+import { StyleSheet } from 'react-native'
+
+export default StyleSheet.create({
+
+  container: {
+    alignItems: 'center',
+    flexDirection: 'column',
+    flexGrow: 1,
+    flex: 1,
+    justifyContent: 'center',
+    paddingTop: 40
+  },
+
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold'
+  },
+
+  main: {
+    flex: 1,
+    flexGrow: 1,
+    justifyContent: 'center',
+    padding: 20
+  },
+
+  footer: {
+    justifyContent: 'center',
+    flexDirection: 'row',
+    padding: 20
+  }
+
+})
+```
+
+Then, in `layout.js`, we can reference these style rules by placing
+them within the `styles` property of the React Native components:
+
+```javascript
+// ...
+
+import styles from './styles'
+
+export default class Layout extends React.Component {
+  // ...
+  render () {
+    const { error, status, progress } = this.state
+
+    let shouldClose = status === 'opening' || status === 'opening'
+
+    return (
+      <View style={styles.container}>
+        <Text style={styles.header}>
+          The Garage is {this.state.status}
+        </Text>
+
+        <View style={styles.main}>
+          <Text>Progress {this.state.progress}%</Text>
+          { error ? this.renderError() : null }
+        </View>
+
+        <View style={styles.footer}>
+          <Button title={shouldClose ? 'Close' : 'Open'}
+                  onPress={shouldClose ? this.close : this.open} />
+        </View>
+      </View>
+    )
+  }
+}
+```
+
+Looking sharp!
+
+## What happened to my progress bar?
+
+You might notice that we've conveniently omitted the progress bar we
+had from the web version. There's a reason for this: **React Native
+has specific progress bar elements for each platform**.
+
+Fortunately for us, React Native allows us to create platform
+specific exceptions to the rules by using a naming convention like
+`file.ios.js`.
+
+We can do that too. Let's start by creating a folder to contain our
+different progress bars:
+
+```bash
+mkdir -p views/progress
+```
+
+Then let's make a new iOS progress bar:
+
+```javascript
+// views/progress/index.ios.js
+import React from 'react'
+
+import {
+  ProgressViewIOS
+} from 'react-native'
+
+export default function ({ progress }) {
+  return <ProgressViewIOS progress={progress} />
+}
+```
+
+Simple right? Let's do the same for Android:
+
+```javascript
+// views/progress/index.android.js
+import React from 'react'
+
+import {
+  ProgressBarAndroid
+} from 'react-native'
+
+export default function ({ progress }) {
+  return <ProgressBarAndroid progress={progress} />
+}
+```
+
+We're all set! Seriously that was it. It's simple for us, but in
+larger apps, you might have whole trees of components tailored to a
+specific platform. This approach allows you to provide the best user
+experience for each platform (where it sufficiently differs).
+
+Alright, last step. Let's place our new Progress bar component into
+the app:
+
+```javascript
+// views/layout.js
+// ...
+import Progress from './progress'
+
+export default class Layout extends React.Component {
+  // ...
+
+  render () {
+    // ..
+    return (
+      <View style={styles.container}>
+        {/*...*/}
+        <View style={styles.main}>
+          <Text>Progress</Text>
+
+          <Progress progress={this.state.progress} />
+
+          { error ? this.renderError() : null }
+        </View>
+        {/*...*/}
+      </View>
+    )
+  }
+}
+```
+
+And now we have platform specific progress bars!
+
+## Wrapping up
+
+We've walked through shipping across Android and iOS. We've
+used a lot of code we've seen before, and worked through writing
+platform specific code where warranted.
+
+Thanks for sticking with us. For the adventurous, stay on for the
+final section...
+
+## What's next
+
+We can go further. We can use React Native to ship to the web
+using
+[`react-native-web`](https://github.com/necolas/react-native-web). We've
+even gone ahead and added it to this project.
+
+We'll keep this part open ended. Here are a couple of questions to
+keep in mind as you build out the web platform:
+
+1. Building for web means compiling JavaScript with Webpack. What does
+that configuration look like?
+2. How can you share environment variables between Android, iOS, and
+   web?
+3. What is the best way to pull in a web specific progress bar?
+
+By this point, we're probably out of time. However we'll be around to
+help answer questions as they come up.
+
+Good luck!

@@ -1,8 +1,9 @@
-import Config from 'react-native-config'
 import xhr from 'xhr'
 import { resolve } from 'url'
 
-const API_URL = Config.API_URL
+import {
+  API_URL
+} from '../config'
 
 export function getStatus (callback) {
   let url = resolve(API_URL, 'api/door')
