@@ -1,7 +1,10 @@
 # First Exercise: Investigation
 
-Shipping an application across multiple clients isn't easy. Let's
-start by walking through an existing cross platform application.
+Shipping an application across multiple platforms isn't easy. However
+there are a few steps we can take to reduce the complexity of dealing
+with a cross-platform code-base. We'll start things up by walking
+through an existing project, pointing out a few strategies along the
+way.
 
 We'll cover the following topics:
 
@@ -10,24 +13,49 @@ We'll cover the following topics:
 3. Configuration
 4. Handling platform differences
 
+If any of these topics aren't particularly interesting to you, feel
+free to move along. This lesson will always be here if you want to
+circle back if things get confusing.
+
 ## Setup
 
-To get started with this project, we need to run a few steps:
+Start by switching your current directory to the first example:
+
+```bash
+cd <path/to/project>/exercises/1-investigation/
+```
+
+This is a JavaScript project, which means JavaScript dependency
+management. We're using [yarn](yarnpkg.com/en/docs/) to manage our
+dependencies. Let's pull it down and run the project installation
+process:
 
 ```bash
 # Install yarn, our JavaScript package manager
+#
+# This assumes you are on a Mac, checkout the installation guide for
+# other platforms:
+# https://yarnpkg.com/en/docs/install#mac-tab
 brew install yarn
 
 # Install JavaScript dependencies
 yarn install
 ```
 
-### Why Yarn instead of npm?
+### Why yarn instead of npm?
 
-Some of you may be familiar with `npm`. We like `yarn` because it
-supports lock files, which guarantee the same dependencies are
-installed between machines. It's also faster, and has some features
-that make it more secure.
+Node ships with [npm](https://www.npmjs.com/), a package management
+system and command line interface for managing JavaScript
+dependencies. We've historically had some challenges with npm,
+including non-reproduceable package installation and slow install
+times. Because of this, we've made the switch
+to [yarn](https://yarnpkg.com), which has addressed all of these
+issues.
+
+Yarn is fast, secure, and includes a lockfile that ensures each of our
+team members (and you) are working from the exact same dependencies.
+
+### Booting up
 
 When installation finishes, boot up the web client:
 
@@ -40,7 +68,7 @@ This will host a simple Garage Door app at `http://localhost:4000`.
 Let's boot the desktop app while we're thinking about it:
 
 ```bash
-yarn start:electron
+yarn start:desktop
 ```
 
 This will open a window with the exact same screen, it just doesn't
@@ -54,8 +82,8 @@ Let's crack open `package.json` and checkout the `"scripts"` entry:
 {
   "name": "garage-client",
   "scripts": {
-    "start:web": "webpack-dev-server --config ./platforms/web/webpack.config.js",
-    "start:electron": "electron ./platforms/desktop"
+    "start:web": "webpack-dev-server --config ./web/webpack.config.js",
+    "start:desktop": "electron ./desktop"
   },
   //...
 }
@@ -69,9 +97,20 @@ When invoking `yarn start:web`, yarn sees that `start:web` isn't a
 registered CLI command, so it checks the `"scripts"` entry in
 `package.json`.
 
+### Why
+
 One key advantage to this approach is that `bin` programs bundled with
 npm dependencies are automatically added to the `PATH` environment
-variable, so using a consistent version of a CLI tool becomes simple.
+variable, so using a consistent version of a CLI tool becomes
+simple. For example, when invoke `webpack-dev-server` to spin up a
+local development server, it will pull from the version we downloaded
+locally as a dependency of this project.
+
+The other advantage is that, by keeping project tasks as scripts in
+`package.json`, we create an expectation that this sort of project
+configuration can be found there. Regardless of how many platforms
+your project targets, you can always expect to find how to manage them
+in `package.json`.
 
 ## Browsing around
 
@@ -79,14 +118,13 @@ Now that we have the app running, let's take a quick look around the project:
 
 ```bash
 common/
-platforms/
-├── desktop
-└── web
+desktop/
+web/
 ```
 
 Since the electron and web environments are similar enough, all shared
 code lives in the `common` folder. Then we have a separate folder
-within `platforms` for each target.
+for each platform: `desktop` and `web`.
 
 ## Sharing configuration with .dotfiles
 
@@ -94,9 +132,9 @@ In true [12 factor form](https://12factor.net/config), we like to keep
 all shared configuration central, where it's easy to find. This is
 flexible because it allows us to modify configuration in layers:
 
-1. By environment. Global constants such as where to find an API can
-   be configured differently between test, development, and
-   production environments.
+1. By environment. Global constants such as where to find an external
+   service can be configured differently between test, development,
+   and production environments.
 2. By platform. One platform may have additional configuration
    requirements, or need to change values.
 
@@ -106,7 +144,7 @@ our configuration for the Babel JavaScript compiler:
 ```
 {
   "presets": [
-    ["es2015", { "loose": true, "modules" : false }],
+    ["es2015", { "modules" : false }],
     "stage-0",
     "react"
   ]
@@ -125,7 +163,7 @@ up [`babel-register`](https://babeljs.io/docs/usage/babel-register/),
 which tells Electron to compile `require()`'d modules with Babel:
 
 ```html
-// index.html
+// desktop/index.html
 <script>
   // Support ES6
   require('babel-register')({
@@ -148,7 +186,7 @@ A good example of this is the way we host assets for each
 platform. Let's take a look at the web version:
 
 ```bash
-platforms/web/
+web/
 ├── boot.js
 ├── public
 │   └── index.html
@@ -160,7 +198,7 @@ We have a public folder, where user-facing assets are stored, with a
 `common`:
 
 ```javascript
-import render from '../../common/render'
+import render from '../common/render'
 
 render('#app')
 ```
@@ -168,7 +206,7 @@ render('#app')
 This is a bit different than our Electron app:
 
 ```bash
-platforms/desktop/
+desktop/
 ├── boot.js
 ├── index.html
 └── index.js
@@ -179,7 +217,7 @@ identical. However our index.html file is different: it needs to do
 some more setup work that `web` is getting for free with Webpack:
 
 ```html
-<!-- platforms/desktop/index.html -->
+<!-- desktop/index.html -->
 <script>
   // Support ES6
   require('babel-register')({
@@ -190,7 +228,7 @@ some more setup work that `web` is getting for free with Webpack:
 
   // Pull in environment variables
   require('dotenv').config({
-    path: __dirname + '/../../.env'
+    path: __dirname + '/../.env'
   })
 
   // Start up the application
@@ -204,5 +242,5 @@ can share code between platforms much more easily.
 ## What's next
 
 This concludes our round-about tour. In the next lesson, we'll dig
-into modifying our common code, making cross-platform changes. will be
-a breeze.
+into modifying our common code, making a few cross-platform changes in
+preparation for the final exercise.

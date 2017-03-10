@@ -63,6 +63,21 @@
       </p>
     </noscript>
 
-    <script src="/client.js"></script>
+    <script>
+      // Support ES6
+      require('babel-register')({
+        plugins: [
+          "transform-es2015-modules-commonjs"
+        ]
+      });
+
+      // Pull in environment variables
+      require('dotenv').config({
+        path: __dirname + '/../.env'
+      })
+
+      // Start up the application
+      require('./boot');
+    </script>
   </body>
 </html>

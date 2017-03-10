@@ -1,7 +1,7 @@
 # Second Exercise: Changes
 
-Now that we've walked thorugh the specifics of the project setup, let's
-make some changes.
+Now that we've walked thorugh the specifics of the project setup,
+let's make some changes.
 
 Boot up the second example:
 
@@ -239,7 +239,7 @@ can expose global values using the `Define` plugin. Let's add a new configuratio
 for the POLL_TIME variable:
 
 ```javascript
-// platforms/web/webpack.config.js
+// web/webpack.config.js
 // ...
 require('dotenv').config({ path: './.env' })
 

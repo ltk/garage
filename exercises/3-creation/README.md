@@ -394,9 +394,12 @@ keep in mind as you build out the web platform:
 
 1. Building for web means compiling JavaScript with Webpack. What does
 that configuration look like?
-2. How can you share environment variables between Android, iOS, and
-   web?
-3. What is the best way to pull in a web specific progress bar?
+2. Webpack doesn't know how to use the `react-native-config` package
+   for environment variables. How can you share environment variables between Android, iOS, and
+   web? Would the approach we took for the progress bar work well here
+   as well?
+3. What is the best way to pull in a web specific progress bar? Hint:
+   checkout the [native HTML progress bar element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress).
 
 By this point, we're probably out of time. However we'll be around to
 help answer questions as they come up.

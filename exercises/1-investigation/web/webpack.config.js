@@ -1,4 +1,5 @@
 const Webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 
 // Pull in environment variables. We use these to pass along
@@ -32,6 +33,9 @@ module.exports = function (env) {
     },
 
     plugins: [
+      new HtmlWebpackPlugin({
+        template: 'index.html'
+      }),
       new Webpack.DefinePlugin({
         process: {
           env: {
@@ -43,7 +47,7 @@ module.exports = function (env) {
     ],
 
     devServer: {
-      contentBase: path.resolve(__dirname, 'public'),
+      contentBase: __dirname,
       publicPath: '/',
       port: process.env.CLIENT_PORT
     }

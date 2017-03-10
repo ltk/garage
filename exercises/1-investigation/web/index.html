@@ -63,21 +63,9 @@
       </p>
     </noscript>
 
-    <script>
-      // Support ES6
-      require('babel-register')({
-        plugins: [
-          "transform-es2015-modules-commonjs"
-        ]
-      });
-
-      // Pull in environment variables
-      require('dotenv').config({
-        path: __dirname + '/../../.env'
-      })
-
-      // Start up the application
-      require('./boot');
-    </script>
+    <!-- Why no scripts here? -->
+    <!-- Checkout the Webpack config file. The HTMLWebpack Plugin injects our
+         JavaScript dependencies
+         for us! -->
   </body>
 </html>

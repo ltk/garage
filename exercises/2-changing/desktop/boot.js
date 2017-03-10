@@ -3,6 +3,6 @@
  * included the `babel-register` package.
  */
 
-import render from '../../common/render'
+import render from '../common/render'
 
 render('#app')

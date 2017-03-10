@@ -3,7 +3,8 @@
  * Electron only supports ES6 features implimented within a
  * Chrome-like environment. We'll teach it how to use ES6 later on.
  */
-require('dotenv').config({ path: '../../.env' })
+
+require('dotenv').config({ path: '../.env' })
 
 const electron = require('electron')
 const app = electron.app
