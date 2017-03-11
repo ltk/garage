@@ -13,7 +13,7 @@ yarn install
 yarn start:web
 
 # In another tab
-yarn start:electron
+yarn start:desktop
 ```
 
 ## One button to rule them all
