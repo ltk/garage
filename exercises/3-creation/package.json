@@ -5,8 +5,7 @@
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js start",
 		"start:ios": "react-native run-ios",
-		"start:android": "react-native run-android",
-		"start:web": "webpack-dev-server --config web/webpack.config.js"
+		"start:android": "react-native run-android"
 	},
 	"dependencies": {
 		"react": "~15.4.1",
