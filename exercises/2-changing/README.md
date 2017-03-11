@@ -71,11 +71,11 @@ an excuse to dig into some React code, which will be useful for the next exercis
 
 ### Changing the view layer
 
-Our application has one view component: `common/views/layer.js`. This is a [React
+Our application has one view component: `common/views/layout.js`. This is a [React
 component](https://facebook.github.io/react/docs/react-component.html) responsible
 for sending out commands to the garage and tracking their progress.
 
-Open up `common/views/layer.js`. Take a look at the render method:
+Open up `common/views/layout.js`. Take a look at the render method:
 
 ```javascript
 render () {
