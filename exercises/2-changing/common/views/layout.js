@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react'
 import { getStatus, postCommand } from '../actions'
 
-const POLL_TIME = parseInt(process.env.POLL_TIME || 1000)
-
 class Layout extends PureComponent {
 
   state = {
@@ -19,7 +17,7 @@ class Layout extends PureComponent {
   }
 
   delayedPing = () => {
-    this.timer = setTimeout(this.ping, POLL_TIME)
+    this.timer = setTimeout(this.ping, 1000)
   }
 
   ping = () => {
@@ -55,26 +53,18 @@ class Layout extends PureComponent {
   }
 
   render () {
-    // We like to use const magic values, globals, and for properties not "owned"
-    // by the current function
-    const { error, status, progress } = this.state
-
-    let shouldClose = status === 'opening' || status === 'opening'
-
     return (
       <div className="wrapper">
         <header>
-          The Garage is {status}
+          The Garage is {this.state.status}
         </header>
         <main>
           Progress:
-          <p><progress value={progress} /></p>
-          { error ? this.renderError() : null }
+          <p><progress value={this.state.progress} /></p>
         </main>
         <footer>
-          <button onClick={shouldClose ? this.close : this.open}>
-            {shouldClose ? 'Close' : 'Open'}
-          </button>
+          <button onClick={this.open}>Open</button>
+          <button onClick={this.close}>Close</button>
         </footer>
       </div>
     )

@@ -40,8 +40,7 @@ module.exports = function (env) {
         process: {
           env: {
             NODE_ENV  : JSON.stringify(IS_DEV ? 'development' : 'production'),
-            API_URL   : JSON.stringify(process.env.API_URL),
-            POLL_TIME : JSON.stringify(process.env.POLL_TIME)
+            API_URL   : JSON.stringify(process.env.API_URL)
           }
         }
       })
