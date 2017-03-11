@@ -51,15 +51,15 @@ yarn start
 
 This single command will start a Redis server, the Node API server, and the Node worker.
 
-## Answers
+## Viewing the complete projects
 
-In addition to the exercises folder, we've included an answers
+In addition to the exercises folder, we've included an completed
 folder with completed versions of every exercise.
 
 ### Running answer for exercise 1
 
 ```bash
-cd answers/1-investigation
+cd completed/1-investigation
 
 # Fetch dependencies
 yarn install
@@ -74,7 +74,7 @@ yarn start desktop
 ### Running answer for exercise 2
 
 ```bash
-cd answers/2-changing
+cd completed/2-changing
 
 # Fetch dependencies
 yarn install
@@ -96,7 +96,7 @@ environments:
 https://facebook.github.io/react-native/docs/getting-started.html
 
 ```bash
-cd answers/3-creation
+cd completed/3-creation
 
 # Fetch dependencies
 yarn install
