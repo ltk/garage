@@ -1,7 +1,7 @@
 require('dotenv').config()
 
-const Door = require('./api/models/door')
-const queue = require('./shared/queue')
+const Door = require('./models/door')
+const queue = require('../shared/queue')
 
 Door.whenReady(() => {
   queue.process('doorCommand', function(job, done){

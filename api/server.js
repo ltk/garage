@@ -9,7 +9,7 @@ server.connection({
   routes: { cors: true }
 })
 
-server.register(require('./api'))
+server.register(require('./routes'))
 
 server.start((err) => {
   if (err) {
