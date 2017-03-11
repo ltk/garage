@@ -39,7 +39,6 @@ Our three exercises can be found in the [`/exercises` directory](https://github.
 ### Setup
 
 ```
-cp .env.example .env
 yarn install
 ```
 
