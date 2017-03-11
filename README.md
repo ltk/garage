@@ -20,7 +20,15 @@ This repository includes all aspects of the Garage system.
 
 Install Node and Redis. After Node is installed, install Yarn by running `npm install -g yarn` or by choosing any of the other [recommended Yarn installation methods](https://yarnpkg.com/lang/en/docs/install/#mac-tab).
 
-If you run into issues using Yarn, double check that your PATH is correctly [configured for Yarn](https://yarnpkg.com/lang/en/docs/install/#alternatives-tab).
+If you run into issues using Yarn, double check that your PATH is
+correctly
+[configured for Yarn](https://yarnpkg.com/lang/en/docs/install/#alternatives-tab).
+
+Our final exercise uses React Native, which has some additional
+dependencies on iOS and Android. Run through the React
+Native
+[getting started guide](https://facebook.github.io/react-native/docs/getting-started.html) to
+ensure you have everything setup for these environments.
 
 ## Exercises
 
@@ -43,18 +51,68 @@ yarn start
 
 This single command will start a Redis server, the Node API server, and the Node worker.
 
-## Running the Web Client
+## Answers
 
-### Setup
+In addition to the exercises folder, we've included an answers
+folder with completed versions of every exercise.
 
-```
-cd clients/web
+### Running answer for exercise 1
+
+```bash
+cd answers/1-investigation
+
+# Fetch dependencies
 yarn install
+
+yarn start:web
+
+# or
+
+yarn start desktop
 ```
 
-### Start
+### Running answer for exercise 2
 
+```bash
+cd answers/2-changing
+
+# Fetch dependencies
+yarn install
+
+yarn start:web
+
+# or
+
+yarn start desktop
 ```
-cd clients/web
-yarn start
+
+### Running answer for exercise 3
+
+Exercise three uses React Native, which has some additional
+dependencies on iOS and Android. Run through the React Native getting
+started guide to ensure you have everything setup for these
+environments:
+
+https://facebook.github.io/react-native/docs/getting-started.html
+
+```bash
+cd answers/3-creation
+
+# Fetch dependencies
+yarn install
+
+yarn start:ios
+
+# or
+
+yarn start:android
+
+# or
+
+yarn start:web
 ```
+
+## Getting Help
+
+During the workshop, we'll be around to help answer any question you
+have or help trouble shoot any error you encounter. Just ask!
