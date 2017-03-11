@@ -59,7 +59,7 @@ class Layout extends PureComponent {
     // by the current function
     const { error, status, progress } = this.state
 
-    let shouldClose = status === 'opening' || status === 'opening'
+    let shouldClose = status === 'open' || status === 'opening'
 
     return (
       <div className="wrapper">

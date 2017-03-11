@@ -69,7 +69,7 @@ export default class Layout extends React.Component {
     // by the current function
     const { error, status, progress } = this.state
 
-    let shouldClose = status === 'opening' || status === 'opening'
+    let shouldClose = status === 'open' || status === 'opening'
 
     return (
       <View style={styles.container}>

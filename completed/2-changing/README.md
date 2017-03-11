@@ -112,7 +112,7 @@ Let's use this information to consolidate the button into a single element:
 
 ```javascript
 render () {
-  let shouldClose = this.state.status === 'opening' || this.state.status === 'opening'
+  let shouldClose = this.state.status === 'open' || this.state.status === 'opening'
 
   return (
     <div className="wrapper">
@@ -142,7 +142,7 @@ render () {
   // by the current function
   const { status, progress } = this.state
 
-  let shouldClose = status === 'opening' || status === 'opening'
+  let shouldClose = status === 'open' || status === 'opening'
 
   return (
     <div className="wrapper">
@@ -292,7 +292,7 @@ renderError () {
 render () {
   const { error, status, progress } = this.state
 
-  let shouldClose = status === 'opening' || status === 'opening'
+  let shouldClose = status === 'open' || status === 'opening'
 
   return (
     <div className="wrapper">
