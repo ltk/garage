@@ -321,18 +321,44 @@ export default function ({ progress }) {
 }
 ```
 
-Simple right? Let's do the same for Android:
+Simple right? We need to do something a little different for
+Android. Let's pull in the ActivityIndicator component and show a
+something a little more custom on Android:
 
 ```javascript
 // views/progress/index.android.js
 import React from 'react'
 
 import {
-  ProgressBarAndroid
+  ActivityIndicator,
+  View,
+  Text
 } from 'react-native'
 
+const style = {
+  container: {
+    marginTop: 20,
+    marginBottom: 20
+  },
+
+  label: {
+    marginTop: 15,
+    textAlign: 'center'
+  }
+}
+
 export default function ({ progress }) {
-  return <ProgressBarAndroid progress={progress} />
+  let animating = progress > 0 && progress < 1
+
+  return (
+    <View style={style.container}>
+      <ActivityIndicator size="large" animating={animating} />
+
+      <Text style={style.label}>
+        {Math.round(progress * 100)}%
+      </Text>
+    </View>
+  )
 }
 ```
 
